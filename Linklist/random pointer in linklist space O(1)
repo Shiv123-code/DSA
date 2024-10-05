@@ -1,0 +1,59 @@
+class Solution {
+    private:
+     void inseartattail(Node*&head,Node* &tail,int d)
+     {
+        Node*newnode=new Node(d);
+        if(head==NULL)
+        {
+          head=newnode;
+          tail=newnode;
+        }
+        else{
+             tail->next=newnode;
+             tail=newnode;
+        }
+     }
+public:
+    Node* copyRandomList(Node* head) {
+        Node*clonehead=NULL;
+        Node*clonetail=NULL;
+        Node*temp=head;
+        while(temp!=NULL)
+        {
+            inseartattail(clonehead,clonetail,temp->val);
+            temp=temp->next;
+        }
+        Node*Originalnode=head;
+        Node*clonenode=clonehead;
+        while(Originalnode!=NULL && clonenode!=NULL)
+        {
+            Node*next=Originalnode->next;
+            Originalnode->next=clonenode;
+            Originalnode=next;
+            next=clonenode->next;
+            clonenode->next=Originalnode;
+            clonenode=next;
+        }
+        temp=head;
+        while(temp!=NULL)
+        {
+            if(temp->next!=NULL)
+            {
+                temp->next->random=temp->random?temp->random->next:temp->random;
+            }
+            temp=temp->next->next;
+        }
+        Originalnode=head;
+        clonenode=clonehead;
+        while(Originalnode!=NULL && clonenode!=NULL)
+        {
+           Originalnode->next=clonenode->next;
+           Originalnode=Originalnode->next;
+           if(Originalnode!=NULL){
+           clonenode->next=Originalnode->next;
+           }
+           clonenode=clonenode->next;
+        }
+        return clonehead;
+    }
+};

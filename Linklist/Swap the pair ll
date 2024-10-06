@@ -1,0 +1,32 @@
+class Solution {
+    private:
+    void swap(ListNode* node)
+    {
+        if(node==NULL)
+        {
+            return;
+        }
+        ListNode*first=node->next;
+        ListNode*second=NULL;
+        if(first!=NULL)
+        {
+            second=first->next;
+        }
+        if(second!=NULL)
+        {
+            ListNode*secondnext=second->next;
+            second->next=first;
+            node->next=second;
+            first->next=secondnext;
+            swap(first);
+        }
+    }
+public:
+    ListNode* swapPairs(ListNode* head) {
+            ListNode*dummy=new ListNode();
+            dummy->next=head;
+            swap(dummy);
+            return dummy->next;
+
+    }
+};

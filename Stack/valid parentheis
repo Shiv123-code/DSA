@@ -1,0 +1,34 @@
+bool isValidParenthesis(string s)
+{
+   stack<char> st;
+    
+    for (int i = 0; i < s.length(); i++) {
+        char ch = s[i];
+
+        // If it's an opening bracket, push onto the stack
+        if (ch == '{' || ch == '(' || ch == '[') {
+            st.push(ch);
+        }
+        else {
+            // If it's a closing bracket, stack must not be empty
+            if(!st.empty()){
+                char top = st.top();
+                
+                // Check if the top of the stack matches the corresponding opening bracket
+                if ((ch == '}' && top == '{') || 
+                    (ch == ')' && top == '(') ||
+                    (ch == ']' && top == '[')) {
+                    st.pop(); // Pop the matching opening bracket
+                } else {
+                    return false; // Mismatched pair
+                }
+            }
+            else {
+                return false; // Closing bracket without matching opening
+            }
+        }
+    }
+    
+    // If stack is empty, all brackets were matched
+    return st.empty();
+}

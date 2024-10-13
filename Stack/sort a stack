@@ -1,0 +1,25 @@
+void sortinsert(stack<int> &stack,int element)
+{
+	if(stack.empty() || stack.top()<element)
+	{
+		stack.push(element);
+		return;
+	}
+	int n=stack.top();
+	stack.pop();
+	sortinsert(stack,  element);
+	stack.push(n);
+
+}
+#include <bits/stdc++.h> 
+void sortStack(stack<int> &stack)
+{
+	if(stack.empty())
+	{
+		return;
+	}
+	int num= stack.top();
+	stack.pop();
+	sortStack(stack);
+	sortinsert(stack,num);
+}

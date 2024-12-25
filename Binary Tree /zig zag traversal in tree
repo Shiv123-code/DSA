@@ -1,0 +1,31 @@
+ vector<vector<int>>result;
+        if(root==nullptr){
+            return result ;
+        }
+        queue<TreeNode*>q;
+        q.push(root);
+        int flag = true ;
+        while(!q.empty()){
+            int size = q.size();
+            vector<int>ans(size);
+             for(int i = 0;i<size;i++){
+                TreeNode* firstnode = q.front();
+                q.pop();
+                
+                if(firstnode->left){
+                    q.push(firstnode->left);
+                }
+                if(firstnode->right){
+                    q.push(firstnode->right);
+                }
+                    if(flag){
+                        ans[i]=firstnode->val;
+                    }
+                    else {
+                        ans[size-i-1]=firstnode->val;
+                    }
+            }
+            flag = !flag;
+            result.push_back(ans);
+            }
+            return result;

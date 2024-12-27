@@ -1,0 +1,32 @@
+class Solution {
+  public:
+        void slove(Node*root,int len,int &maxlen,int sum,int &maxsum){
+            if(root==NULL){
+                if(len>maxlen){
+                    maxlen=len;
+                    maxsum=sum;
+                }
+                else if(len==maxlen){
+                    maxsum=max(sum,maxsum);
+                
+                }
+                return;
+            }
+            sum=sum+root->data;
+            
+            slove(root->left,len+1,maxlen,sum,maxsum);
+            slove(root->right,len+1,maxlen,sum,maxsum);
+        }
+    int sumOfLongRootToLeafPath(Node *root) {
+        // code here
+        int len=0;
+        int maxlen=0;
+        
+        int sum=0;
+        int maxsum=INT_MIN;
+        
+        slove(root,len,maxlen,sum,maxsum);
+        
+        return maxsum;
+    }
+};

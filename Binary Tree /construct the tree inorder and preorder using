@@ -1,0 +1,30 @@
+class Solution {
+    private:
+       void createmap(vector<int>&inorder,map<int,int> &nodetoindex,int n){
+        for(int i=0;i<n;i++){
+            nodetoindex[inorder[i]]=i;
+        }
+       }
+
+       TreeNode *slove(vector<int> &preorder,vector<int>&inorder,int &index,int inorderstart,int inorderend,int n,map<int,int> &nodetoindex){
+        if(index>=n || inorderstart>inorderend){
+            return NULL;
+        }
+        int element=preorder[index++];
+        TreeNode *root=new TreeNode(element);
+        int pos=nodetoindex[element];
+       //root left
+       root->left=slove(preorder,inorder,index,inorderstart,pos-1,n,nodetoindex);
+       root->right=slove(preorder,inorder,index,pos+1,inorderend,n,nodetoindex);
+       return root;
+       }
+       public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+             int preorderindex=0;
+             int n=preorder.size();
+             map<int,int> nodetoindex;
+             createmap(inorder,nodetoindex,n);
+             TreeNode* ans=slove(preorder,inorder,preorderindex,0,n-1,n,nodetoindex);
+             return ans;
+    }
+};

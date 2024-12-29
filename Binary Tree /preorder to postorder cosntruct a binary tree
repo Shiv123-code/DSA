@@ -1,0 +1,31 @@
+class Solution {
+      private:
+      int search(vector<int>& postorder,int start,int end,int num){
+        for(int i=start;i<=end;i++){
+            if(postorder[i]==num){
+                return i;
+            }
+        }
+        return -1;
+      }
+      int preindex=0;
+      TreeNode* slove(vector<int>&preorder,vector<int>&postorder,int start,int end){
+        if(start>end || preindex>=preorder.size()){
+            return NULL;
+        }
+        int num =preorder[preindex];
+        preindex++;
+        TreeNode* root=new TreeNode(num);
+        if(preindex>=preorder.size()|| start==end){
+            return root;
+        }
+        int postindex=search(postorder,start,end,preorder[preindex]);
+        root->left=slove(preorder,postorder,start,postindex);
+        root->right=slove(preorder,postorder,postindex+1,end-1);
+        return root;
+      }
+public:
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
+             return slove(preorder,postorder,0,preorder.size()-1);
+    }
+};

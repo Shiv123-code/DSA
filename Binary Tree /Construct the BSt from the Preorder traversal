@@ -1,0 +1,22 @@
+class Solution {
+
+public:
+      TreeNode* slove(vector<int> & preorder,int mini,int maxi,int &i){
+        if(i>=preorder.size()){
+            return NULL;
+        }
+         if(preorder[i]<mini || preorder[i]>maxi){
+            return NULL;
+         }
+         TreeNode* root=new TreeNode(preorder[i++]);
+         root->left=slove(preorder,mini,root->val,i);
+         root->right=slove(preorder,root->val,maxi,i);
+         return root;
+      }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+             int mini=INT_MIN;
+             int maxi=INT_MAX;
+             int i=0;
+             return slove(preorder,mini,maxi,i);
+    }
+};

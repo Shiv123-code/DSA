@@ -1,0 +1,41 @@
+class Solution {
+    class info {
+        public:
+        int maxi;
+        int mini;
+        bool isBST;
+        int size;
+       // in
+    };
+    info slove(TreeNode* root,int & ans){
+        if(root==NULL)
+        {
+            return {INT_MIN,INT_MAX,true,0};
+        }
+        info left=slove(root->left,ans);
+        info right=slove(root->right,ans);
+        info currentNode;
+        currentNode.size=left.size+right.size+root->val;
+        currentNode.maxi=max(root->val,right.maxi);
+        currentNode.mini=min(root->val,left.mini);
+        if(left.isBST && right.isBST && (root->val > left.maxi && root->val < right.mini)){
+            currentNode.isBST=true;
+        }
+        else{
+            currentNode.isBST=false;
+        }
+
+        if(currentNode.isBST){
+            ans=max(ans,currentNode.size);
+        }
+
+        return currentNode;
+
+    }
+public:
+    int maxSumBST(TreeNode* root) {
+        int maxsize=0;
+        info temp=slove(root,maxsize);
+        return maxsize;
+    }
+};

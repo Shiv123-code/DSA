@@ -1,0 +1,37 @@
+#include<queue>
+ class Solution{
+public:
+ struct compare{
+       bool operator()(const ListNode* l,const ListNode*r){
+        return l->val>r->val;
+       }
+ };
+ ListNode* mergeKLists(vector<ListNode*>& lists) {
+           priority_queue<ListNode *,vector<ListNode*>,compare> miniheap; 
+           int k=lists.size();
+            if(k==0) return NULL;
+           for(int i=0;i<k;i++){
+            if(lists[i]!=NULL){
+              miniheap.push(lists[i]);
+            }
+           }
+           ListNode*head=NULL;
+           ListNode*tail=NULL;
+           while(miniheap.size()>0){
+            ListNode*top=miniheap.top();
+            miniheap.pop();
+            if(top->next!=NULL){
+                miniheap.push(top->next);
+            }
+            if(head==NULL){
+                head=top;
+                tail=top;
+            }
+            else{
+                tail->next=top;
+                tail=top;
+            }
+        }
+        return head;
+    }
+ };

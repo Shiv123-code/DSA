@@ -1,0 +1,14 @@
+bool isCyclicindfs( unordered_map<int,list<int>> &adj, unordered_map<int,bool> &visited,int node,int parent){
+    visited[node]=true;
+    for(auto neg:adj[node]){
+        if(!visited[neg]){
+            bool check=isCyclicindfs(adj,visited,neg,node);
+            if(check)
+                return true;
+        }
+        else if(neg!=parent){
+            return true;
+        }
+    }
+    return false;
+}

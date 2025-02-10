@@ -1,0 +1,40 @@
+#include<unordered_map>
+#include<list>
+#include<vector>
+using namespace std;
+bool cycledetect(int node, unordered_map<int,bool>&visited, unordered_map<int,bool>&cycledfs,unordered_map<int,list<int>> &adj){
+     visited[node]=true;
+     cycledfs[node]=true;
+     for(auto neg:adj[node]){
+       if(!visited[neg]){
+         bool cycle=cycledetect(neg,visited,cycledfs,adj);
+         if(cycle)
+           return true;
+       }
+         else if(cycledfs[neg]){
+           return true;
+         }
+     }
+     cycledfs[node]=false;
+     return false;
+}
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+  // Write your code here.
+  unordered_map<int,list<int>> adj;
+  for(int i=0;i<edges.size();i++){
+    int u=edges[i].first;
+    int v=edges[i].second;
+    adj[u].push_back(v);
+  }
+  unordered_map<int,bool> visited;
+  unordered_map<int,bool> cycledfs;
+  for(int i=1;i<=n;i++){
+      if(!visited[i]){
+        bool cyclepresent=cycledetect(i,visited,cycledfs,adj);
+        if(cyclepresent){
+          return true;
+        }
+      }
+  }
+  return false;
+}

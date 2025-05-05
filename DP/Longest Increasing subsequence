@@ -1,0 +1,44 @@
+class Solution {
+public:
+      /*int slovemem(vector<vector<int>>&dp,vector<int> &nums,int curr,int prev){
+        if(curr==nums.size()){
+            return 0;
+        }
+        if(dp[curr][prev+1]!=-1){
+            return dp[curr][prev+1];
+        }
+        int nottake=0+slovemem(dp,nums,curr+1,prev);
+        int take=0;
+        if(prev==-1 || nums[curr]>nums[prev])
+            take=1+slovemem(dp,nums,curr+1,curr);
+        
+        //int nottake=0+slovemem(dp,nums,curr+1,prev);
+        int len=max(take,nottake);
+        return dp[curr][prev+1]=len;
+      }*/
+
+    int lengthOfLIS(vector<int>& nums) {
+      /*  int n=nums.size();
+       // vector<vector<int>> dp(n,vector<int>(n+1,-1));
+        // return slovemem(dp,nums,0,-1);
+        vector<vector<int>> dp(n+1,vector<int> (n+1,0));
+        for(int curr=n-1;curr>=0;curr--){
+            for(int prev=curr-1;prev>=-1;prev--){
+                int len=0+dp[curr+1][prev+1];
+                if(prev==-1|| nums[curr]>nums[prev]){
+                    len=max(len,1+dp[curr+1][curr+1]);
+                }
+                dp[curr][prev+1]=len;
+            }
+        }
+        return dp[0][0];*/
+        vector<int> dp(nums.size(), INT_MAX);
+        int ans = 0;
+        for (int i = 0; i < nums.size(); ++i) {
+            int pos = lower_bound(dp.begin(), dp.end(), nums[i]) - dp.begin();
+            dp[pos] = nums[i];
+            ans = max(ans, pos + 1);
+        }
+        return ans;
+    }
+};

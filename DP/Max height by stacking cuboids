@@ -1,0 +1,31 @@
+class Solution {
+public:
+      static bool comp(vector<int> &d1,vector<int>& d2){
+        if(d1[0]==d2[0]){
+            if(d1[1]==d2[1]){
+                return d1[2]<d2[2];
+            }
+            return d1[1]<d2[1];
+        }
+        return d1[0]<d2[0];
+      }
+       int slove(vector<vector<int>>& cuboid,int prev,int pos){
+        if(pos==cuboid.size()){
+            return 0;
+        }
+        int skip=slove(cuboid,prev,pos+1);
+        int incl=0;
+        if(prev == -1 || (cuboid[prev][0] <= cuboid[pos][0] && cuboid[prev][1]<= cuboid[pos][1] && cuboid[prev][2] <= cuboid[pos][2])) 
+/*if(prev == -1 || (cuboid[prev][0] <= cuboid[pos][0] && cuboid[prev][1] <= cuboid[pos][1] && cuboid[prev][2] <= cuboid[pos][2])) */{
+            incl=cuboid[pos][2]+slove(cuboid,pos,pos+1);
+        }
+        return max(skip,incl);
+       }
+    int maxHeight(vector<vector<int>>& cuboids) {
+        for(auto &c:cuboids){
+            sort(c.begin(),c.end());
+        }
+        sort(cuboids.begin(),cuboids.end());
+        return slove(cuboids,-1,0);
+    }
+};

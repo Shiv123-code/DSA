@@ -1,0 +1,90 @@
+class Solution {
+public:
+/*int slovemem(vector<int>& nums1, vector<int>& nums2,int index,bool swapped,vector<vector<int>>&dp){
+    if(index==nums1.size())
+      return 0;
+    if(dp[index][swapped]!=-1){
+        return dp[index][swapped];
+    }
+    int prev1=nums1[index-1];
+    int prev2=nums2[index-1];
+    int ans=INT_MAX;
+
+    if(swapped)
+      swap(prev1,prev2);
+      //no swap
+
+    if(nums1[index]>prev1 && nums2[index]>prev2)
+        ans=slovemem(nums1,nums2,index+1,0,dp);
+
+    //swap
+    if(nums1[index]>prev2 && nums2[index]>prev1)
+        ans=min(ans,1+slovemem(nums1,nums2,index+1,1,dp));
+    
+    return dp[index][swapped]=ans;*/
+   /* int slovetab(vector<int>& nums1, vector<int>& nums2){
+        int n=nums1.size();
+        vector<vector<int>> dp(n+1,vector<int>(2,0));
+        for(int index=n-1;index>=1;index--){
+            for(int swapped=1;swapped>=0;swapped--){
+                 int prev1=nums1[index-1];
+                 int prev2=nums2[index-1];
+                 int ans=INT_MAX;
+
+                if(swapped)
+                swap(prev1,prev2);
+      //no swap
+
+        if(nums1[index]>prev1 && nums2[index]>prev2)
+           ans=dp[index+1][0];
+
+    //swap
+    if(nums1[index]>prev2 && nums2[index]>prev1)
+        ans=min(ans,1+dp[index+1][1]);
+        dp[index][swapped]=ans;
+         }
+        }
+        return dp[1][0];
+    }
+   // return dp[1][0];*/
+   int slovespace(vector<int>& nums1,vector<int>& nums2){
+     int n = nums1.size();
+    int noswap = 0;
+    int swap = 1;
+
+    for (int i = 1; i < n; i++) {
+        int currnoswap = INT_MAX;
+        int currswap = INT_MAX;
+
+        // Case 1: Sequences are increasing without any swap
+        if (nums1[i] > nums1[i - 1] && nums2[i] > nums2[i - 1]) {
+            currnoswap = min(currnoswap, noswap);
+            currswap = min(currswap, swap + 1);
+        }
+
+        // Case 2: Sequences are increasing with a swap
+        if (nums1[i] > nums2[i - 1] && nums2[i] > nums1[i - 1]) {
+            currnoswap = min(currnoswap, swap);
+            currswap = min(currswap, noswap + 1);
+        }
+
+        noswap = currnoswap;
+        swap = currswap;
+    }
+
+    return min(swap, noswap);
+}
+   
+
+
+    int minSwap(vector<int>& nums1, vector<int>& nums2) {
+        nums1.insert(nums1.begin(),-1);
+        nums2.insert(nums2.begin(),-1);
+        bool swapped=0;
+        int n=nums1.size();
+        vector<vector<int>> dp(n,vector<int>(2,-1));
+        //return  slovemem(nums1,nums2,1,swapped,dp);
+       // return slovetab(nums1,nums2);
+       return slovespace(nums1,nums2);
+    }
+};

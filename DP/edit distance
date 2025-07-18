@@ -1,0 +1,27 @@
+class Solution {
+public:
+int slove(string& a,string& b, int i,int j,vector<vector<int> > &dp){
+    if(i==a.length()){
+       return b.length()-j;
+    }
+    if(j==b.length()){
+        return a.length()-i;
+    }
+    if(dp[i][j]!=-1){
+        return dp[i][j];
+    }
+    int ans=0;
+    if(a[i]==b[j]){
+        return slove(a,b,i+1,j+1,dp);
+    }
+    else{
+        //insert
+         int insertans=1+slove(a,b,i,j+1,dp);
+        //delete
+        int deleteans=1+slove(a,b,i+1,j,dp);
+        //replace
+        int replaceans=1+slove(a,b,i+1,j+1,dp);
+        ans=min(insertans ,min(deleteans,replaceans));
+    }
+    return dp[i][j]=ans;
+}
